@@ -1,6 +1,6 @@
-# streamer-mode README
+# streamerMode README
 
-This is the README for your extension "streamer-mode". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "streamerMode". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

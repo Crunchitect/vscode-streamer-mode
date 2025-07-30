@@ -24,8 +24,8 @@ function enableStreamerMode() {
     if (isSteamerMode) return;
     isSteamerMode = true;
     secretDirentDecorationDisposable = vscode.window.registerFileDecorationProvider(secretDirentDecorationProvider);
-    toggleDirentVisibilityDisposable = vscode.commands.registerCommand('streamer-mode.toggle', toggleDirentVisibility);
-    vscode.commands.executeCommand('setContext', 'streamer-mode.enabled', true);
+    toggleDirentVisibilityDisposable = vscode.commands.registerCommand('streamerMode.toggle', toggleDirentVisibility);
+    vscode.commands.executeCommand('setContext', 'streamerMode.enabled', true);
 }
 
 function disableStreamerMode() {
@@ -34,10 +34,10 @@ function disableStreamerMode() {
     secretDirentDecorationDisposable.dispose();
     tabManager.disposable.dispose();
     toggleDirentVisibilityDisposable.dispose();
-    vscode.commands.executeCommand('setContext', 'streamer-mode.enabled', false);
+    vscode.commands.executeCommand('setContext', 'streamerMode.enabled', false);
 }
 
-const isStreamerModeConfig = () => vscode.workspace.getConfiguration('streamer-mode').get('enableStreamerMode');
+const isStreamerModeConfig = () => vscode.workspace.getConfiguration('streamerMode').get('enableStreamerMode');
 
 export async function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage('Streamer Mode Active!');
@@ -45,14 +45,14 @@ export async function activate(context: vscode.ExtensionContext) {
     else disableStreamerMode();
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration('streamer-mode')) {
+        if (e.affectsConfiguration('streamerMode')) {
             if (isStreamerModeConfig()) enableStreamerMode();
             else disableStreamerMode();
         }
     });
 
-    context.subscriptions.push(vscode.commands.registerCommand('streamer-mode.enable', enableStreamerMode));
-    context.subscriptions.push(vscode.commands.registerCommand('streamer-mode.disable', disableStreamerMode));
+    context.subscriptions.push(vscode.commands.registerCommand('streamerMode.enable', enableStreamerMode));
+    context.subscriptions.push(vscode.commands.registerCommand('streamerMode.disable', disableStreamerMode));
 }
 
 export async function deactivate() {}

@@ -42,14 +42,14 @@ export function activate(context: vscode.ExtensionContext) {
     const secretsFillHintDisposable = vscode.window.registerFileDecorationProvider(secretsFillHintProvider);
     context.subscriptions.push(secretsFillHintDisposable);
 
-    vscode.commands.registerCommand('streamer-mode.shadow-hide', async (...args) => {
+    vscode.commands.registerCommand('streamerMode.shadow-hide', async (...args) => {
         if (args.length !== 2) return 'No file selected!';
         const [selectedPath, _] = args as vscode.Uri[];
         hideEntirelyPaths.push(selectedPath.path);
         await secretsFillHintProvider.changeStatusFile(hideEntirelyPaths);
     });
 
-    vscode.commands.registerCommand('streamer-mode.shadow-show', async (...args) => {
+    vscode.commands.registerCommand('streamerMode.shadow-show', async (...args) => {
         if (args.length !== 2) return 'No file selected!';
         const [selectedPath, _] = args as vscode.Uri[];
         hideEntirelyPaths.splice(hideEntirelyPaths.indexOf(selectedPath.path), 1);

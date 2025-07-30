@@ -16,24 +16,24 @@
   "contributes": {
     "commands": [
       {
-        "command": "streamer-mode.toggle",
+        "command": "streamerMode.toggle",
         "title": "Streamer Mode: Toggle Visibility"
       },
       {
-        "command": "streamer-mode.enable",
+        "command": "streamerMode.enable",
         "title": "Enable Streamer Mode"
       },
       {
-        "command": "streamer-mode.disable",
+        "command": "streamerMode.disable",
         "title": "Disable Streamer Mode"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "streamer-mode.toggle",
+          "command": "streamerMode.toggle",
           "group": "navigation@1",
-          "when": "streamer-mode.enabled"
+          "when": "streamerMode.enabled"
         }
       ]
     },
@@ -42,7 +42,7 @@
         "title": "Streamer Mode",
         "type": "object",
         "properties": {
-          "streamer-mode.enableStreamerMode": {
+          "streamerMode.enableStreamerMode": {
             "type": "boolean",
             "default": true,
             "description": "Lights! Camera! Action!!!"
