@@ -45,10 +45,9 @@ export async function activate(context: vscode.ExtensionContext) {
     else disableStreamerMode();
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration('streamerMode')) {
+        if (e.affectsConfiguration('streamerMode'))
             if (isStreamerModeConfig()) enableStreamerMode();
             else disableStreamerMode();
-        }
     });
 
     context.subscriptions.push(vscode.commands.registerCommand('streamerMode.enable', enableStreamerMode));

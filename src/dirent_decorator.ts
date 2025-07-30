@@ -13,9 +13,16 @@ export class SecretDirentDecorationProvider implements vscode.FileDecorationProv
 
     private async _provideFileDecoration(uri: vscode.Uri): Promise<vscode.FileDecoration> {
         for (const hiddenDirent of this.hiddenDirentsReference)
-            if (await DirentAccess.isChildOf(hiddenDirent, uri))
+            if (await DirentAccess.isSame(hiddenDirent, uri))
                 return {
                     badge: 'X',
+                    tooltip: 'No spoofing!',
+                    color: new vscode.ThemeColor('disabledForeground'),
+                };
+        for (const hiddenDirent of this.hiddenDirentsReference)
+            if (await DirentAccess.isChildOf(hiddenDirent, uri))
+                return {
+                    badge: 'x',
                     tooltip: 'No spoofing!',
                     color: new vscode.ThemeColor('disabledForeground'),
                 };

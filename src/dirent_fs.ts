@@ -6,15 +6,8 @@ export class DirentAccess {
         if (direntStats.type === vscode.FileType.Unknown) return [];
         if (direntStats.type & vscode.FileType.File) return [dirent];
 
-        const workspaceFolder = vscode.workspace.getWorkspaceFolder(dirent);
-        let includePattern: vscode.GlobPattern;
-
-        if (workspaceFolder) {
-            const relativePath = vscode.workspace.asRelativePath(dirent, false);
-            includePattern = new vscode.RelativePattern(workspaceFolder, `${relativePath}/**/*`);
-        } else includePattern = `${dirent.path}/**/*`;
-
-        const subDirents = await vscode.workspace.findFiles(includePattern);
+        const subPaths = await vscode.workspace.fs.readDirectory(dirent);
+        const subDirents = subPaths.map(([subpath, _]) => vscode.Uri.joinPath(dirent, subpath));
         const result = [dirent, ...subDirents];
         if (recursive) for (const subDirent of subDirents) result.push(...(await this.getChildDirents(subDirent)));
         return result;
@@ -25,5 +18,9 @@ export class DirentAccess {
         return (
             potentialChild.path.startsWith(`${potentialParent.path}/`) || potentialParent.path === potentialChild.path
         );
+    }
+
+    public static async isSame(a: vscode.Uri, b: vscode.Uri) {
+        return a.path === b.path;
     }
 }
