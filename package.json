@@ -17,18 +17,39 @@
     "commands": [
       {
         "command": "streamer-mode.toggle",
-        "title": "Streamer Mode: Toggle Visibility",
-        "shortTitle": "Streamer Mode: Toggle Visibility"
+        "title": "Streamer Mode: Toggle Visibility"
+      },
+      {
+        "command": "streamer-mode.enable",
+        "title": "Enable Streamer Mode"
+      },
+      {
+        "command": "streamer-mode.disable",
+        "title": "Disable Streamer Mode"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "streamer-mode.toggle",
-          "group": "navigation@1"
+          "group": "navigation@1",
+          "when": "streamer-mode.enabled"
         }
       ]
-    }
+    },
+    "configuration": [
+      {
+        "title": "Streamer Mode",
+        "type": "object",
+        "properties": {
+          "streamer-mode.enableStreamerMode": {
+            "type": "boolean",
+            "default": true,
+            "description": "Lights! Camera! Action!!!"
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

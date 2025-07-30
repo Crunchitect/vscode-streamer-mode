@@ -20,8 +20,10 @@ export class DirentAccess {
         return result;
     }
 
-    public static isChildOf(potentialParent: vscode.Uri, potentialChild: vscode.Uri) {
+    public static async isChildOf(potentialParent: vscode.Uri, potentialChild: vscode.Uri) {
         // TODO: make less janky
-        return potentialChild.path.startsWith(potentialParent.path);
+        return (
+            potentialChild.path.startsWith(`${potentialParent.path}/`) || potentialParent.path === potentialChild.path
+        );
     }
 }

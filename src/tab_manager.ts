@@ -9,12 +9,12 @@ export class TabManager {
         await vscode.window.tabGroups.close(tab);
     }
 
-    private isFaultyTab(tab: vscode.Tab) {
+    private async isFaultyTab(tab: vscode.Tab) {
         for (const key in <{ [k: string]: any }>tab.input) {
             const prop = (<{ [k: string]: any }>tab.input)[key];
             if (!(prop instanceof vscode.Uri)) continue;
             for (const flaggedDirent of this.flaggedDirents)
-                if (DirentAccess.isChildOf(flaggedDirent, prop)) return true;
+                if (await DirentAccess.isChildOf(flaggedDirent, prop)) return true;
         }
 
         return false;
@@ -25,13 +25,13 @@ export class TabManager {
         this.flaggedDirents = flaggedDirents;
 
         for (const tabGroup of vscode.window.tabGroups.all)
-            for (const tab of tabGroup.tabs) if (this.isFaultyTab(tab)) this.closeTab(tab);
+            for (const tab of tabGroup.tabs) if (await this.isFaultyTab(tab)) this.closeTab(tab);
 
         this._disposable = vscode.window.tabGroups.onDidChangeTabs(async (tabEvent) => {
             const { opened: openedTabs, changed: changedTabs } = tabEvent;
 
-            for (const openedTab of openedTabs) if (this.isFaultyTab(openedTab)) this.closeTab(openedTab);
-            for (const changedTab of changedTabs) if (this.isFaultyTab(changedTab)) this.closeTab(changedTab);
+            for (const openedTab of openedTabs) if (await this.isFaultyTab(openedTab)) this.closeTab(openedTab);
+            for (const changedTab of changedTabs) if (await this.isFaultyTab(changedTab)) this.closeTab(changedTab);
         });
     }
 
