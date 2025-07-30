@@ -1,28 +1,28 @@
 import * as vscode from 'vscode';
+import { DirentAccess } from './dirent_fs';
 
 export class TabManager {
     private _disposable: vscode.Disposable = new vscode.Disposable(() => {});
-    private flaggedFiles: vscode.Uri[] = [];
+    private flaggedDirents: vscode.Uri[] = [];
 
     public async closeTab(tab: vscode.Tab) {
         await vscode.window.tabGroups.close(tab);
     }
 
     private isFaultyTab(tab: vscode.Tab) {
-        const flaggedFilePaths = this.flaggedFiles.map((uri) => uri.path);
-
         for (const key in <{ [k: string]: any }>tab.input) {
             const prop = (<{ [k: string]: any }>tab.input)[key];
             if (!(prop instanceof vscode.Uri)) continue;
-            if (flaggedFilePaths.includes(prop.path)) return true;
+            for (const flaggedDirent of this.flaggedDirents)
+                if (DirentAccess.isChildOf(flaggedDirent, prop)) return true;
         }
 
         return false;
     }
 
-    public async updateTabs(flaggedFiles: vscode.Uri[]) {
+    public async updateTabs(flaggedDirents: vscode.Uri[]) {
         this._disposable.dispose();
-        this.flaggedFiles = flaggedFiles;
+        this.flaggedDirents = flaggedDirents;
 
         for (const tabGroup of vscode.window.tabGroups.all)
             for (const tab of tabGroup.tabs) if (this.isFaultyTab(tab)) this.closeTab(tab);
