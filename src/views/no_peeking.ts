@@ -13,14 +13,15 @@ const streamModeConfig: { [k: string]: any } = new Proxy(
     }
 );
 
-export default function (
-    ctx: vscode.ExtensionContext,
-    webview: vscode.Webview,
-    mediaPath: vscode.Uri,
-    uri: vscode.Uri
-) {
-    const barrierFileOnDisk = vscode.Uri.joinPath(mediaPath, 'barricade.svg');
-    const barrierUri = webview.asWebviewUri(barrierFileOnDisk);
+export default function (ctx: vscode.ExtensionContext, webview: vscode.Webview, uri: vscode.Uri) {
+    const codiconStyleFileOnDisk = vscode.Uri.joinPath(
+        ctx.extensionUri,
+        'node_modules',
+        '@vscode/codicons',
+        'dist',
+        'codicon.css'
+    );
+    const codiconStyleUri = webview.asWebviewUri(codiconStyleFileOnDisk);
 
     return html`
         <!DOCTYPE html>
@@ -29,12 +30,16 @@ export default function (
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>No Peeking!</title>
+                <link href="${codiconStyleUri}" type="text/css" rel="stylesheet" />
             </head>
             <body style="width: 100%; height: 100%;">
                 <div
                     style="width: 100%; height: 100%; display: flex; flex-flow: column wrap; align-items: center; justify-content: center;"
                 >
-                    <img src="${barrierUri}" style="width: 15%" />
+                    <span
+                        class="codicon codicon-gist-secret"
+                        style="font-size: 64px; color: var(--vscode-problemsWarningIcon-foreground)"
+                    ></span>
                     <h1>${streamModeConfig.blockingPanel.title}</h1>
                     <p>
                         ${streamModeConfig.blockingPanel.subtitle

@@ -15,22 +15,25 @@ export class TabManager {
         if (typeof faultyUri === 'boolean') return;
         if (this.config.showBlockingPanel && tab.isActive) {
             const mediaPath = vscode.Uri.joinPath(this.extensionContext.extensionUri, 'media');
-            vscode.window.showInformationMessage(mediaPath.path);
             const panel = vscode.window.createWebviewPanel(
                 'streamerMode.noPeeking',
                 'No Peeking!',
                 tab.group.viewColumn,
                 {
-                    localResourceRoots: [mediaPath],
+                    localResourceRoots: [
+                        vscode.Uri.joinPath(
+                            this.extensionContext.extensionUri,
+                            'node_modules',
+                            '@vscode/codicons',
+                            'dist'
+                        ),
+                    ],
                     enableScripts: true,
                 }
             );
-            panel.iconPath = vscode.Uri.joinPath(mediaPath, 'barricade.svg');
-
             panel.webview.html = noPeekingPanelContext(
                 this.extensionContext,
                 panel.webview,
-                mediaPath,
                 faultyUri ?? vscode.Uri.from({ scheme: '' })
             );
         }
