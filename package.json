@@ -57,12 +57,20 @@
           "streamerMode.blockingPanel.title": {
             "type": "string",
             "default": "No Peeking!",
-            "markdownDescription": "The heading of the 'No Peeking!' view, if enabled."
+            "markdownDescription": "The heading of the 'No Peeking!' view, if enabled.",
+            "order": 2
           },
           "streamerMode.blockingPanel.subtitle": {
             "type": "string",
             "default": "The file <code>{filename}</code> is not public info!!",
-            "markdownDescription": "The description of the 'No Peeking!' view, if enabled. \n With `{filename}` for the filename, and `{fullPath}` for the file path."
+            "markdownDescription": "The description of the 'No Peeking!' view, if enabled. \n With `{filename}` for the filename, and `{fullPath}` for the file path.",
+            "order": 2
+          },
+          "streamerMode.hideGitIgnoredFiles": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Hide all files listed in `.gitignore`.",
+            "order": 3
           }
         }
       }

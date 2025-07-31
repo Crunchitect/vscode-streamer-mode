@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { SecretDirentDecorationProvider } from './dirent_decorator';
 import { TabManager } from './tab_manager';
+import { streamerModeConfig } from './config';
+import { getAllGitIgnoredFiles } from './parse_gitignore';
 
 const hiddenDirents: vscode.Uri[] = [];
 const secretDirentDecorationProvider = new SecretDirentDecorationProvider(hiddenDirents);
@@ -20,7 +22,8 @@ let secretDirentDecorationDisposable: vscode.Disposable;
 let toggleDirentVisibilityDisposable: vscode.Disposable;
 let isSteamerMode = false;
 
-function enableStreamerMode() {
+async function enableStreamerMode() {
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
     if (isSteamerMode) return;
     isSteamerMode = true;
     secretDirentDecorationDisposable = vscode.window.registerFileDecorationProvider(secretDirentDecorationProvider);
@@ -37,29 +40,35 @@ function disableStreamerMode() {
     vscode.commands.executeCommand('setContext', 'streamerMode.enabled', false);
 }
 
-const streamModeConfig: { [k: string]: any } = new Proxy(
-    {},
-    {
-        has(_, prop) {
-            return vscode.workspace.getConfiguration('streamerMode').has(<string>prop);
-        },
-        get(_, prop) {
-            return vscode.workspace.getConfiguration('streamerMode').get(<string>prop);
-        },
-    }
-);
+async function hideGitIgnoredFiles() {
+    const gitIgnoredFiles = await getAllGitIgnoredFiles();
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
+    secretDirentDecorationProvider.updateDirentDecorations(gitIgnoredFiles);
+    tabManager.updateTabs([...hiddenDirents, ...gitIgnoredFiles]);
+}
+
+async function showGitIgnoredFiles() {
+    const gitIgnoredFiles = await getAllGitIgnoredFiles();
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
+    secretDirentDecorationProvider.updateDirentDecorations(gitIgnoredFiles);
+    tabManager.updateTabs(hiddenDirents);
+}
 
 export async function activate(context: vscode.ExtensionContext) {
-    tabManager = new TabManager(context, streamModeConfig);
+    tabManager = new TabManager(context);
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
 
     vscode.window.showInformationMessage('Streamer Mode Active!');
-    if (streamModeConfig.enableStreamerMode) enableStreamerMode();
+    if (streamerModeConfig.enableStreamerMode) enableStreamerMode();
     else disableStreamerMode();
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration('streamerMode'))
-            if (streamModeConfig.enableStreamerMode) enableStreamerMode();
+        if (e.affectsConfiguration('streamerMode')) {
+            if (streamerModeConfig.enableStreamerMode) enableStreamerMode();
             else disableStreamerMode();
+            if (streamerModeConfig.hideGitIgnoredFiles) hideGitIgnoredFiles();
+            else showGitIgnoredFiles();
+        }
     });
 
     context.subscriptions.push(vscode.commands.registerCommand('streamerMode.enable', enableStreamerMode));

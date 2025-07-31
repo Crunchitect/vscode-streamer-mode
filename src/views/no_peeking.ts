@@ -1,17 +1,6 @@
 import * as vscode from 'vscode';
+import { streamerModeConfig } from '../config';
 const html = String.raw;
-
-const streamModeConfig: { [k: string]: any } = new Proxy(
-    {},
-    {
-        has(_, prop) {
-            return vscode.workspace.getConfiguration('streamerMode').has(<string>prop);
-        },
-        get(_, prop) {
-            return vscode.workspace.getConfiguration('streamerMode').get(<string>prop);
-        },
-    }
-);
 
 export default function (ctx: vscode.ExtensionContext, webview: vscode.Webview, uri: vscode.Uri) {
     const codiconStyleFileOnDisk = vscode.Uri.joinPath(
@@ -40,9 +29,9 @@ export default function (ctx: vscode.ExtensionContext, webview: vscode.Webview, 
                         class="codicon codicon-gist-secret"
                         style="font-size: 64px; color: var(--vscode-problemsWarningIcon-foreground)"
                     ></span>
-                    <h1>${streamModeConfig.blockingPanel.title}</h1>
+                    <h1>${streamerModeConfig.blockingPanel.title}</h1>
                     <p>
-                        ${streamModeConfig.blockingPanel.subtitle
+                        ${streamerModeConfig.blockingPanel.subtitle
                             .replace('{filename}', uri.path.split('/').at(-1))
                             .replace('{fullPath}', uri.path)}
                     </p>

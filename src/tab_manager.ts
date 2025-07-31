@@ -1,20 +1,17 @@
 import * as vscode from 'vscode';
 import { DirentAccess } from './dirents/dirent_fs';
+import { streamerModeConfig } from './config';
 import noPeekingPanelContext from './views/no_peeking';
 
 export class TabManager {
     private _disposable: vscode.Disposable = new vscode.Disposable(() => {});
     private flaggedDirents: vscode.Uri[] = [];
 
-    constructor(
-        private readonly extensionContext: vscode.ExtensionContext,
-        private readonly config: { [k: string]: any }
-    ) {}
+    constructor(private readonly extensionContext: vscode.ExtensionContext) {}
 
     public async closeTab(tab: vscode.Tab, faultyUri?: boolean | vscode.Uri) {
         if (typeof faultyUri === 'boolean') return;
-        if (this.config.showBlockingPanel && tab.isActive) {
-            const mediaPath = vscode.Uri.joinPath(this.extensionContext.extensionUri, 'media');
+        if (streamerModeConfig.showBlockingPanel && tab.isActive) {
             const panel = vscode.window.createWebviewPanel(
                 'streamerMode.noPeeking',
                 'No Peeking!',
