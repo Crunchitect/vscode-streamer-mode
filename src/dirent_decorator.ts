@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { DirentAccess } from './dirent_fs';
+import { DirentAccess } from './dirents/dirent_fs';
 
 export class SecretDirentDecorationProvider implements vscode.FileDecorationProvider {
     hiddenDirentsReference: vscode.Uri[] = [];

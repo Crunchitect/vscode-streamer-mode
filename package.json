@@ -45,7 +45,24 @@
           "streamerMode.enableStreamerMode": {
             "type": "boolean",
             "default": true,
-            "description": "Lights! Camera! Action!!!"
+            "description": "Lights! Camera! Action!!!",
+            "order": 0
+          },
+          "streamerMode.showBlockingPanel": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Show a 'No Peeking!' view when a hidden file is selected. \n\n **WARNING:** This only works on files opened *after* streamer mode is enabled, and will flash randomly. Beware!",
+            "order": 1
+          },
+          "streamerMode.blockingPanel.title": {
+            "type": "string",
+            "default": "No Peeking!",
+            "markdownDescription": "The heading of the 'No Peeking!' view, if enabled."
+          },
+          "streamerMode.blockingPanel.subtitle": {
+            "type": "string",
+            "default": "The file <code>{filename}</code> is not public info!!",
+            "markdownDescription": "The description of the 'No Peeking!' view, if enabled. \n With `{filename}` for the filename, and `{fullPath}` for the file path."
           }
         }
       }

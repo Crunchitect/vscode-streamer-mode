@@ -5,7 +5,6 @@ export class DirentAccess {
         const direntStats = await vscode.workspace.fs.stat(dirent);
         if (direntStats.type === vscode.FileType.Unknown) return [];
         if (direntStats.type & vscode.FileType.File) return [dirent];
-
         const subPaths = await vscode.workspace.fs.readDirectory(dirent);
         const subDirents = subPaths.map(([subpath, _]) => vscode.Uri.joinPath(dirent, subpath));
         const result = [dirent, ...subDirents];

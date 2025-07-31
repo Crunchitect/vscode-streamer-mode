@@ -5,7 +5,7 @@ import { TabManager } from './tab_manager';
 const hiddenDirents: vscode.Uri[] = [];
 const secretDirentDecorationProvider = new SecretDirentDecorationProvider(hiddenDirents);
 
-const tabManager = new TabManager();
+let tabManager: TabManager;
 
 function toggleDirentVisibility(dirent: vscode.Uri, _: vscode.Uri[]) {
     const hiddenDirentPaths = hiddenDirents.map((uri) => uri.path);
@@ -13,7 +13,7 @@ function toggleDirentVisibility(dirent: vscode.Uri, _: vscode.Uri[]) {
     else hiddenDirents.push(dirent);
 
     secretDirentDecorationProvider.updateDirentDecorations([dirent]);
-    tabManager.updateTabs(hiddenDirents);
+    tabManager?.updateTabs(hiddenDirents);
 }
 
 let secretDirentDecorationDisposable: vscode.Disposable;
@@ -32,21 +32,33 @@ function disableStreamerMode() {
     if (!isSteamerMode) return;
     isSteamerMode = false;
     secretDirentDecorationDisposable.dispose();
-    tabManager.disposable.dispose();
+    tabManager?.disposable.dispose();
     toggleDirentVisibilityDisposable.dispose();
     vscode.commands.executeCommand('setContext', 'streamerMode.enabled', false);
 }
 
-const isStreamerModeConfig = () => vscode.workspace.getConfiguration('streamerMode').get('enableStreamerMode');
+const streamModeConfig: { [k: string]: any } = new Proxy(
+    {},
+    {
+        has(_, prop) {
+            return vscode.workspace.getConfiguration('streamerMode').has(<string>prop);
+        },
+        get(_, prop) {
+            return vscode.workspace.getConfiguration('streamerMode').get(<string>prop);
+        },
+    }
+);
 
 export async function activate(context: vscode.ExtensionContext) {
+    tabManager = new TabManager(context, streamModeConfig);
+
     vscode.window.showInformationMessage('Streamer Mode Active!');
-    if (isStreamerModeConfig()) enableStreamerMode();
+    if (streamModeConfig.enableStreamerMode) enableStreamerMode();
     else disableStreamerMode();
 
     vscode.workspace.onDidChangeConfiguration((e) => {
         if (e.affectsConfiguration('streamerMode'))
-            if (isStreamerModeConfig()) enableStreamerMode();
+            if (streamModeConfig.enableStreamerMode) enableStreamerMode();
             else disableStreamerMode();
     });
 
