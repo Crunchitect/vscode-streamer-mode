@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img src='readme-assets/streamer-mode-icon.png' />
+    <img src='./readme-assets/streamer-mode-icon.svg' />
     <p><i>Say cheese, cheese, cheese!</i></p>
     <h1>Streamer Mode</h1>
 </div>
@@ -10,16 +10,16 @@ Disable opening files to ***not*** let viewers see your *`.env`s*!
 
 Right click and you'll see the `Streamer Mode: Toggle Visibility` option.
 
-![Hide](/readme-assets/Hide1.png)
+![Hide](/readme-assets/Hide1.svg)
 
 After clicking, all tabs opening the file will close- the active tab will change into the `No Peeking!` panel.
 
 This is indicated by the `X` mark next to the file.
-![No Peeking](/readme-assets/Hide2.png)
+![No Peeking](/readme-assets/Hide2.svg)
 
 It will automatically hide `.gitignore`d files! Here's are the additional marks next to the file/folder.
 
-![Decorations](/readme-assets/Decorations.png)
+![Decorations](/readme-assets/Decorations.svg)
 
 ## Settings
 
@@ -37,7 +37,7 @@ Show the `No Peeking!` panel.
 
 The settings of the `No Peeking!` panel.
 
-![Blocking Panel](/readme-assets/BlockingPanel.png)
+![Blocking Panel](/readme-assets/BlockingPanel.svg)
 
 ## Commands
 
