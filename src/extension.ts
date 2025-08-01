@@ -71,6 +71,10 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     tabManager = new TabManager(context);
+    if (streamerModeConfig.enableStreamerMode)
+        if (streamerModeConfig.hideGitIgnoredFiles)
+            tabManager?.updateTabs([...hiddenDirents, ...(await getAllGitIgnoredFiles())]);
+        else tabManager?.updateTabs(hiddenDirents);
     await secretDirentDecorationProvider.updateGitIgnoredFiles();
 
     vscode.window.showInformationMessage('Streamer Mode Active!');

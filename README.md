@@ -1,71 +1,55 @@
-# streamerMode README
+<center>
+    <img src='./readme-assets/streamer-mode-icon.svg' />
+    <p><i>Say cheese, cheese, cheese!</i></p>
+    <h1>Streamer Mode</h1>
+</center>
 
-This is the README for your extension "streamerMode". After writing up a brief description, we recommend including the following sections.
+Disable opening files to ***not*** let viewers see your *`.env`s*!
 
-## Features
+## How do I use this?
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Right click and you'll see the `Streamer Mode: Toggle Visibility` option.
 
-For example if there is an image subfolder under your extension project workspace:
+![Hide](/readme-assets/Hide1.svg)
 
-\!\[feature X\]\(images/feature-x.png\)
+After clicking, all tabs opening the file will close- the active tab will change into the `No Peeking!` panel.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+This is indicated by the `X` mark next to the file.
+![No Peeking](/readme-assets/Hide2.svg)
 
-## Requirements
+It will automatically hide `.gitignore`d files! Here's are the additional marks next to the file/folder.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+![Decorations](/readme-assets/Decorations.svg)
 
-## Extension Settings
+## Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Enable Streamer Mode: `streamerMode.enableStreamerMode`
 
-For example:
+Self explanatory, I hope.
 
-This extension contributes the following settings:
+### Show Blocking Panel: `streamerMode.showBlockingPanel`
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Show the `No Peeking!` panel.
 
-## Known Issues
+***WARNING***: The panel only shows up for tabs opened *after* it is hidden, if the tab is active (It's just a `tab.isActive` check in the code). Super hacky, Beware!
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Blocking Panel: `streamerMode.blockingPanel`
 
-## Release Notes
+The settings of the `No Peeking!` panel.
 
-Users appreciate release notes as you update your extension.
+![Blocking Panel](/readme-assets/BlockingPanel.svg)
 
-### 1.0.0
+## Commands
 
-Initial release of ...
+### Enable Streamer Mode: `streamerMode.enable`
+Changing the `streamerMode.enableStreamerMode` setting will also call this command.
 
-### 1.0.1
+### Disable Streamer Mode: `streamerMode.disable`
+Changing the `streamerMode.enableStreamerMode` setting will also call this command.
 
-Fixed issue #.
+### Clear Streamer Mode Data: `streamerMode.clearData`
 
-### 1.1.0
+The files/folders hidden in persist in each workspace (it stores an array of paths in `workspaceState`). This will clear all the data (basically just `state.hiddenFiles = []`).
 
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+That's it! Thanks!
+~ crunchi
