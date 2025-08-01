@@ -14,7 +14,6 @@ export async function getAllGitIgnoredFiles() {
             .split('\n')
             .filter((pattern) => !pattern.trimStart().startsWith('#'));
         for (const pattern of gitIgnorePatterns) {
-            console.log('pattern', pattern);
             const relativePattern = new vscode.RelativePattern(parentUri, pattern);
             ignoredFiles.push(...(await vscode.workspace.findFiles(relativePattern)));
         }

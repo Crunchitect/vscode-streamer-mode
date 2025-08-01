@@ -8,6 +8,7 @@ const hiddenDirents: vscode.Uri[] = [];
 const secretDirentDecorationProvider = new SecretDirentDecorationProvider(hiddenDirents);
 
 let tabManager: TabManager;
+let workspaceState: vscode.Memento;
 
 function toggleDirentVisibility(dirent: vscode.Uri, _: vscode.Uri[]) {
     const hiddenDirentPaths = hiddenDirents.map((uri) => uri.path);
@@ -16,6 +17,10 @@ function toggleDirentVisibility(dirent: vscode.Uri, _: vscode.Uri[]) {
 
     secretDirentDecorationProvider.updateDirentDecorations([dirent]);
     tabManager?.updateTabs(hiddenDirents);
+    workspaceState?.update(
+        'streamerMode.hiddenDirents',
+        hiddenDirents.map((uri) => uri.path)
+    );
 }
 
 let secretDirentDecorationDisposable: vscode.Disposable;
@@ -54,7 +59,17 @@ async function showGitIgnoredFiles() {
     tabManager.updateTabs(hiddenDirents);
 }
 
+function clearStreamerData() {
+    workspaceState?.update('streamerMode.hiddenDirents', []);
+}
+
 export async function activate(context: vscode.ExtensionContext) {
+    workspaceState = context.workspaceState;
+    if (workspaceState.get('streamerMode.hiddenDirents')) {
+        const importedHiddenDirents = <string[]>workspaceState.get('streamerMode.hiddenDirents');
+        hiddenDirents.push(...importedHiddenDirents.map((path) => vscode.Uri.file(path)));
+    }
+
     tabManager = new TabManager(context);
     await secretDirentDecorationProvider.updateGitIgnoredFiles();
 
@@ -73,6 +88,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand('streamerMode.enable', enableStreamerMode));
     context.subscriptions.push(vscode.commands.registerCommand('streamerMode.disable', disableStreamerMode));
+    context.subscriptions.push(vscode.commands.registerCommand('streamerMode.clearData', clearStreamerData));
 }
 
 export async function deactivate() {}

@@ -21,11 +21,15 @@
       },
       {
         "command": "streamerMode.enable",
-        "title": "Enable Streamer Mode"
+        "title": "Streamer Mode: Enable Streamer Mode"
       },
       {
         "command": "streamerMode.disable",
-        "title": "Disable Streamer Mode"
+        "title": "Streamer Mode: Disable Streamer Mode"
+      },
+      {
+        "command": "streamerMode.clearDara",
+        "title": "Streamer Mode: Clear Data"
       }
     ],
     "menus": {
