@@ -28,7 +28,7 @@
         "title": "Streamer Mode: Disable Streamer Mode"
       },
       {
-        "command": "streamerMode.clearDara",
+        "command": "streamerMode.clearData",
         "title": "Streamer Mode: Clear Data"
       }
     ],
