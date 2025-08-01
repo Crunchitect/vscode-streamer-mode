@@ -8,7 +8,12 @@ export class DirentAccess {
         const subPaths = await vscode.workspace.fs.readDirectory(dirent);
         const subDirents = subPaths.map(([subpath, _]) => vscode.Uri.joinPath(dirent, subpath));
         const result = [dirent, ...subDirents];
-        if (recursive) for (const subDirent of subDirents) result.push(...(await this.getChildDirents(subDirent)));
+        const subFolders: vscode.Uri[] = [];
+        for (const subdirent of subDirents) {
+            const stats = await vscode.workspace.fs.stat(subdirent);
+            if (stats.type === vscode.FileType.Directory) subFolders.push(subdirent);
+        }
+        if (recursive) for (const subFolder of subFolders) result.push(...(await this.getChildDirents(subFolder)));
         return result;
     }
 
