@@ -3,6 +3,7 @@ import { SecretDirentDecorationProvider } from './dirent_decorator';
 import { TabManager } from './tab_manager';
 import { streamerModeConfig } from './config';
 import { getAllGitIgnoredFiles, getAllStreamerIgnoredFiles } from './parse_gitignore';
+import find from 'find-process';
 
 const hiddenDirents: vscode.Uri[] = [];
 const secretDirentDecorationProvider = new SecretDirentDecorationProvider(hiddenDirents);
@@ -77,7 +78,24 @@ function clearStreamerData() {
     workspaceState?.update('streamerMode.hiddenDirents', []);
 }
 
+const lastOpenedProcesses: string[] = [];
+async function monitoringFunc() {
+    const processNames = ['obs32', 'obs64', 'obs', 'xsplit.core'];
+    for (const processName of processNames)
+        await find('name', processName).then((process) => {
+            if (!process.length) {
+                if (lastOpenedProcesses.indexOf(processName) !== -1)
+                    lastOpenedProcesses.splice(lastOpenedProcesses.indexOf(processName), 1);
+                return;
+            }
+            if (lastOpenedProcesses.includes(processName)) return;
+            lastOpenedProcesses.push(processName);
+            enableStreamerMode();
+        });
+}
+
 export async function activate(context: vscode.ExtensionContext) {
+    const monitoring = setInterval(monitoringFunc, 3000);
     workspaceState = context.workspaceState;
     if (workspaceState.get('streamerMode.hiddenDirents')) {
         const importedHiddenDirents = <string[]>workspaceState.get('streamerMode.hiddenDirents');

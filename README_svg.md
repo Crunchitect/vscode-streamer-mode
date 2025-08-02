@@ -1,10 +1,11 @@
 <div style="text-align: center;">
-    <img src='./readme-assets/streamer-mode-icon.svg' />
-    <p><i>Say cheese, cheese, cheese!</i></p>
-    <h1>Streamer Mode</h1>
+    <img src='./readme-assets/streamer-icon-monitoring-branch.png' />
+    <p><i>Mwah! お願い きみが欲しいの</i></p>
+    <h1>Streamer Mode: Monitoring Branch</h1>
 </div>
 
-Disable opening files to ***not*** let viewers see your *`.env`s*!
+Will automatically toggle when OBS/XSplit is enabled!
+(Pushed seperately to keep the `main` branch have no dependencies.)
 
 ## How do I use this?
 
