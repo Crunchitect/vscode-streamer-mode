@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="text-align: center;" align="center">
     <img src='./readme-assets/streamer-icon-monitoring-branch.png' />
     <p><i>Mwah! お願い きみが欲しいの</i></p>
     <h1>Streamer Mode: Monitoring Branch</h1>
