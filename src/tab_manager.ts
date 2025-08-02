@@ -6,11 +6,17 @@ import noPeekingPanelContext from './views/no_peeking';
 export class TabManager {
     private _disposable: vscode.Disposable = new vscode.Disposable(() => {});
     private flaggedDirents: vscode.Uri[] = [];
+    // One-time passes for the "Open Anyway..." option.
+    private tickets: string[] = [];
 
     constructor(private readonly extensionContext: vscode.ExtensionContext) {}
 
     public async closeTab(tab: vscode.Tab, faultyUri?: boolean | vscode.Uri) {
         if (typeof faultyUri === 'boolean') return;
+        if (faultyUri && this.tickets.includes(faultyUri.path)) {
+            this.tickets.filter((path) => path !== faultyUri.path);
+            return;
+        }
         if (streamerModeConfig.showBlockingPanel && tab.isActive) {
             const panel = vscode.window.createWebviewPanel(
                 'streamerMode.noPeeking',
@@ -33,6 +39,13 @@ export class TabManager {
                 panel.webview,
                 faultyUri ?? vscode.Uri.from({ scheme: '' })
             );
+            panel.webview.onDidReceiveMessage((msg: string) => {
+                if (msg === 'open') {
+                    this.tickets.push((<vscode.Uri>faultyUri).path);
+                    vscode.commands.executeCommand('vscode.open', faultyUri);
+                    panel.dispose();
+                } else panel.dispose();
+            });
         }
         await vscode.window.tabGroups.close(tab);
     }

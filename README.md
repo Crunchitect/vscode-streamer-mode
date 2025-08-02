@@ -39,12 +39,18 @@ The settings of the `No Peeking!` panel.
 
 ![Blocking Panel](/readme-assets/BlockingPanel.png)
 
+There's also *optionally* a `Show Anyway` option!
+
+![Blocking Panel Buttons](/readme-assets/BlockingPanelButtons.png)
+
 ## Commands
 
 ### Enable Streamer Mode: `streamerMode.enable`
+
 Changing the `streamerMode.enableStreamerMode` setting will also call this command.
 
 ### Disable Streamer Mode: `streamerMode.disable`
+
 Changing the `streamerMode.enableStreamerMode` setting will also call this command.
 
 ### Clear Streamer Mode Data: `streamerMode.clearData`

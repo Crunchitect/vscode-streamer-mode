@@ -73,6 +73,21 @@
             "markdownDescription": "The description of the 'No Peeking!' view, if enabled. \n With `{filename}` for the filename, and `{fullPath}` for the file path.",
             "order": 2
           },
+          "streamerMode.blockingPanel.allowOpenAnyway": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Show the `Open Anyway..` buttons in the `No Peeking!`"
+          },
+          "streamerMode.blockingPanel.buttons.openAnywayText": {
+            "type": "string",
+            "default": "Open Anyway...",
+            "markdownDescription": "The `Open Anyway...` button text in the `No Peeking!` panel, if enabled."
+          },
+          "streamerMode.blockingPanel.buttons.closeText": {
+            "type": "string",
+            "default": "Close",
+            "markdownDescription": "The `Close` button text in the `No Peeking!` panel, if enabled."
+          },
           "streamerMode.hideGitIgnoredFiles": {
             "type": "boolean",
             "default": true,
