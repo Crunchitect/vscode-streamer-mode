@@ -2,7 +2,7 @@
   "name": "streamer-mode",
   "displayName": "Streamer Mode",
   "description": "No snooping on `.env` files!",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "crunchi",
   "icon": "/readme-assets/streamer-mode-icon.png",
   "repository": "https://github.com/Crunchitect/vscode-streamer-mode",
