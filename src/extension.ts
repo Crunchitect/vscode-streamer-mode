@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { SecretDirentDecorationProvider } from './dirent_decorator';
 import { TabManager } from './tab_manager';
 import { streamerModeConfig } from './config';
-import { getAllGitIgnoredFiles } from './parse_gitignore';
+import { getAllGitIgnoredFiles, getAllStreamerIgnoredFiles } from './parse_gitignore';
 
 const hiddenDirents: vscode.Uri[] = [];
 const secretDirentDecorationProvider = new SecretDirentDecorationProvider(hiddenDirents);
@@ -59,6 +59,20 @@ async function showGitIgnoredFiles() {
     tabManager.updateTabs(hiddenDirents);
 }
 
+async function hideStreamerIgnoredFiles() {
+    const streamerIgnoredFiles = await getAllStreamerIgnoredFiles();
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
+    secretDirentDecorationProvider.updateDirentDecorations(streamerIgnoredFiles);
+    tabManager.updateTabs([...hiddenDirents, ...streamerIgnoredFiles]);
+}
+
+async function showStreamerIgnoredFiles() {
+    const streamerIgnoredFiles = await getAllStreamerIgnoredFiles();
+    await secretDirentDecorationProvider.updateGitIgnoredFiles();
+    secretDirentDecorationProvider.updateDirentDecorations(streamerIgnoredFiles);
+    tabManager.updateTabs(hiddenDirents);
+}
+
 function clearStreamerData() {
     workspaceState?.update('streamerMode.hiddenDirents', []);
 }
@@ -87,6 +101,8 @@ export async function activate(context: vscode.ExtensionContext) {
             else disableStreamerMode();
             if (streamerModeConfig.hideGitIgnoredFiles) hideGitIgnoredFiles();
             else showGitIgnoredFiles();
+            if (streamerModeConfig.hideStreamerIgnoredFiles) hideStreamerIgnoredFiles();
+            else showStreamerIgnoredFiles();
         }
     });
 

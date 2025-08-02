@@ -21,6 +21,9 @@ It will automatically hide `.gitignore`d files! Here's are the additional marks 
 
 ![Decorations](/readme-assets/Decorations.png)
 
+Don't want the files to be `.gitignore`d but still want to save the sensitive file locations in a file? We also have a `.streamerignore` for ..well, that!
+(I recommend maybe `.gitignore`ing your `.streamerignore`.)
+
 ## Settings
 
 ### Enable Streamer Mode: `streamerMode.enableStreamerMode`

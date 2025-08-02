@@ -93,6 +93,12 @@
             "default": true,
             "markdownDescription": "Hide all files listed in `.gitignore`.",
             "order": 3
+          },
+          "streamerMode.hideStreamerIgnoredFiles": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Hide all files listed in `.streamerignore`.",
+            "order": 3
           }
         }
       }

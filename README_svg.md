@@ -18,8 +18,10 @@ This is indicated by the `X` mark next to the file.
 ![No Peeking](/readme-assets/Hide2.svg)
 
 It will automatically hide `.gitignore`d files! Here's are the additional marks next to the file/folder.
-
 ![Decorations](/readme-assets/Decorations.svg)
+
+Don't want the files to be `.gitignore`d but still want to save the sensitive file locations in a file? We also have a `.streamerignore` for ..well, that!
+(I recommend maybe `.gitignore`ing your `.streamerignore`.)
 
 ## Settings
 

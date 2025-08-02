@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { DirentAccess } from './dirents/dirent_fs';
 import { streamerModeConfig } from './config';
-import { getAllGitIgnoredFiles } from './parse_gitignore';
+import { getAllGitIgnoredFiles, getAllStreamerIgnoredFiles } from './parse_gitignore';
 
 export class SecretDirentDecorationProvider implements vscode.FileDecorationProvider {
     hiddenDirentsReference: vscode.Uri[] = [];
@@ -9,6 +9,7 @@ export class SecretDirentDecorationProvider implements vscode.FileDecorationProv
     private _onDidChangeDirentDecorations = new vscode.EventEmitter<vscode.Uri[]>();
     public readonly onDidChangeFileDecorations = this._onDidChangeDirentDecorations.event;
     private gitIgnoredFiles: string[] = [];
+    private streamerIgnoredFiles: string[] = [];
 
     constructor(hiddenDirentsReference: vscode.Uri[]) {
         this.hiddenDirentsReference = hiddenDirentsReference;
@@ -16,6 +17,7 @@ export class SecretDirentDecorationProvider implements vscode.FileDecorationProv
 
     public async updateGitIgnoredFiles() {
         this.gitIgnoredFiles = (await getAllGitIgnoredFiles()).map((uri) => uri.path);
+        this.streamerIgnoredFiles = (await getAllStreamerIgnoredFiles()).map((uri) => uri.path);
     }
 
     private async _provideFileDecoration(uri: vscode.Uri): Promise<vscode.FileDecoration> {
@@ -37,6 +39,12 @@ export class SecretDirentDecorationProvider implements vscode.FileDecorationProv
             return {
                 badge: 'GX',
                 tooltip: 'Git Ignored!',
+                color: new vscode.ThemeColor('disabledForeground'),
+            };
+        if (streamerModeConfig.hideStreamerIgnoredFiles && this.streamerIgnoredFiles.includes(uri.path))
+            return {
+                badge: 'SX',
+                tooltip: 'Streamer Ignored!',
                 color: new vscode.ThemeColor('disabledForeground'),
             };
         return {};
