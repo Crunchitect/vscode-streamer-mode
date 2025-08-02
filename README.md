@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="text-align: center;" align="center">
     <img src='readme-assets/streamer-mode-icon.png' />
     <p><i>Say cheese, cheese, cheese!</i></p>
     <h1>Streamer Mode</h1>
