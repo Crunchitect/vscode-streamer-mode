@@ -12,7 +12,8 @@ export async function getAllGitIgnoredFiles() {
         const gitIgnorePatterns = textDecoder
             .decode(gitIgnoreContents)
             .split('\n')
-            .filter((pattern) => !pattern.trimStart().startsWith('#'));
+            .filter((pattern) => !pattern.trimStart().startsWith('#'))
+            .filter((pattern) => pattern.trim() !== '');
         for (const pattern of gitIgnorePatterns) {
             const relativePattern = new vscode.RelativePattern(parentUri, pattern);
             ignoredFiles.push(...(await vscode.workspace.findFiles(relativePattern)));
@@ -33,7 +34,8 @@ export async function getAllStreamerIgnoredFiles() {
         const streamerIgnorePatterns = textDecoder
             .decode(streamerIgnoreContents)
             .split('\n')
-            .filter((pattern) => !pattern.trimStart().startsWith('#'));
+            .filter((pattern) => !pattern.trimStart().startsWith('#'))
+            .filter((pattern) => pattern.trim() !== '');
         for (const pattern of streamerIgnorePatterns) {
             const relativePattern = new vscode.RelativePattern(parentUri, pattern);
             ignoredFiles.push(...(await vscode.workspace.findFiles(relativePattern)));
